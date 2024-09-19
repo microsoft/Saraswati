@@ -17,6 +17,10 @@ var spokenTextQueue = []
 var sessionActive = false
 var lastSpeakTime
 var imgUrl = ""
+
+var speechEndpoint = 'https://kravatardemo.azure-api.net/speech/avatar'
+var ttsEndpoint = 'wss://kravatardemo.azure-api.net/tts_socket'
+var sttEndpoint = 'wss://kravatardemo.azure-api.net/stt_socket'
 // Connect to avatar service
 function connectAvatar() {
     const cogSvcRegion = document.getElementById('region').value
@@ -37,8 +41,7 @@ function connectAvatar() {
     if (privateEndpointEnabled) {
         speechSynthesisConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(`wss://${privateEndpoint}/tts/cognitiveservices/websocket/v1?enableTalkingAvatar=true`), cogSvcSubKey) 
     } else {
-        speechSynthesisConfig = SpeechSDK.SpeechConfig.fromSubscription(cogSvcSubKey, cogSvcRegion)
-        //speechSynthesisConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(`wss://{APIM SOCKET ENDPOINT}`), cogSvcSubKey)
+        speechSynthesisConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(ttsEndpoint), cogSvcSubKey)
         //speechSynthesisConfig.authorizationToken=token
     }
     speechSynthesisConfig.endpointId = document.getElementById('customVoiceEndpointId').value
@@ -56,9 +59,8 @@ function connectAvatar() {
 
         console.log("Event received: " + e.description + offsetMessage)
     }
-  
-    const speechRecognitionConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(`wss://${cogSvcRegion}.stt.speech.microsoft.com/speech/universal/v2`), cogSvcSubKey)
-    //const speechRecognitionConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(`wss://{{APIM SOCKET ENDPOINT}`), cogSvcSubKey)
+    
+    const speechRecognitionConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(sttEndpoint), cogSvcSubKey)
     //speechRecognitionConfig.authorizationToken=token
     speechRecognitionConfig.setProperty(SpeechSDK.PropertyId.SpeechServiceConnection_LanguageIdMode, "Continuous")
     var sttLocales = document.getElementById('sttLocales').value.split(',')
@@ -99,10 +101,8 @@ function connectAvatar() {
     if (privateEndpointEnabled) {
         xhr.open("GET", `https://${privateEndpoint}/tts/cognitiveservices/avatar/relay/token/v1`)
     } else {
-        xhr.open("GET", `https://${cogSvcRegion}.tts.speech.microsoft.com/cognitiveservices/avatar/relay/token/v1`)
-        //xhr.open("GET", `{{APIM SPEECH ENDPOINT}}`)
+        xhr.open("GET", speechEndpoint)
     }
-    //https://${cogSvcRegion}.tts.speech.microsoft.com/cognitiveservices/avatar/relay/token/v1
     
     xhr.setRequestHeader("Ocp-Apim-Subscription-Key", cogSvcSubKey)
     xhr.addEventListener("readystatechange", function() {
