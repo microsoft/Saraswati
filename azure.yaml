@@ -5,6 +5,6 @@ metadata:
     template: azd-init@1.10.1
 services:
     app:
-        project: ./src
+        project: ./Avatar/
         host: appservice
-        language: js
+        language: dotnet

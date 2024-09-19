@@ -12,13 +12,10 @@
 <h1>Talking Avatar Chat Demo</h1>
 
 <div id="configuration">
-  <h2 style="background-color: white; width: 300px;">Azure Speech Resource</h2>
-  <label style="font-size: medium;" for="region">Region:</label>
-  <select id="region" style="font-size: medium;">
-    <option value="westus2">West US 2</option>
-    <option value="westeurope">West Europe</option>
-    <option value="southeastasia">Southeast Asia</option>
-  </select>
+  <h2 style="background-color: white; width: 300px;">APIM values</h2>
+  <label style="font-size: medium;" for="apimEndpoint">Endpoint (without https:// or wss://):</label>
+  <input id="apimEndpoint" size="32" style="font-size: medium;" value="{your name}.azure-api.net" /> <br />
+
   <label style="font-size: medium;" for="APIKey">API Key:</label>
   <input id="APIKey" size="32" style="font-size: medium;" value=""/>  
   <div style="background-color: white; width: 300px;">
@@ -29,13 +26,9 @@
     <input id="privateEndpoint" type="text" size="64" style="font-size: medium;" placeholder="https://{your custom name}.cognitiveservices.azure.com/"></input><br />
   </div><br />
 
-  <h2 style="background-color: white; width: 600px;">Azure OpenAI Resource(APIM hosted)</h2>
-  <label style="font-size: medium;" for="azureOpenAIEndpoint">APIM Endpoint:</label>
-  <input id="azureOpenAIEndpoint" type="text" size="64" style="font-size: medium;" value="https://{your apim name}.azure-api.net/{aoai api}"></input><br />
-  <label style="font-size: medium;" for="azureOpenAIApiKey">APIM Subscription Key:</label>
-  <input id="azureOpenAIApiKey" size="32" style="font-size: medium;" value="" /><br />
-  <label style="font-size: medium;" for="azureOpenAIDeploymentName">Azure OpenAI Deployment Name:</label>
-  <input id="azureOpenAIDeploymentName" type="text" size="32" style="font-size: medium;" value="" /><br />
+  <h2 style="background-color: white; width: 600px;">Azure OpenAI</h2>
+  <label style="font-size: medium;" for="azureOpenAIDeploymentName">Deployment Name:</label>
+  <input id="azureOpenAIDeploymentName" type="text" size="32" style="font-size: medium;" value="gpt-4o" /><br />
   <label style="font-size: medium;"  for="prompt">System Prompt:</label><br/>
   <textarea id="prompt" style="width: 640px;">You are an AI assistant that helps people find information.</textarea>
   <div style="background-color: white; width: 300px;">
