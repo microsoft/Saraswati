@@ -13,6 +13,9 @@ module appServicePlan 'appserviceplan.bicep' = {
     tags: tags
     sku: {
       name: 'B1'
+      tier: 'Basic'
+      size: 'B1'
+      family: 'B'
       capacity: 1
     }
   }
@@ -25,8 +28,8 @@ module web 'appservice.bicep' = {
     location: location
     tags: union(tags, { 'azd-service-name': serviceName })
     appServicePlanId: appServicePlan.outputs.id    
-    runtimeName: 'node'
-    runtimeVersion: '20-lts'
+    runtimeName: 'dotnet'
+    runtimeVersion: '8.0'
   }  
 }
 
