@@ -22,19 +22,19 @@ resource account 'Microsoft.CognitiveServices/accounts@2022-03-01' = {
   sku: sku
 }
 
-// @batchSize(1)
-// resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2024-04-01-preview' = [for deployment in deployments: {
-//   parent: account
-//   name: deployment.name
-//   properties: {
-//     model: deployment.model
-//     raiPolicyName: contains(deployment, 'raiPolicyName') ? deployment.raiPolicyName : null
-//   }
-//   sku: {
-//     name: 'Standard'
-//     capacity: deployment.capacity
-//   }
-// }]
+@batchSize(1)
+resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2024-04-01-preview' = [for deployment in deployments: {
+  parent: account
+  name: deployment.name
+  properties: {
+    model: deployment.model
+    raiPolicyName: contains(deployment, 'raiPolicyName') ? deployment.raiPolicyName : null
+  }
+  sku: {
+    name: 'Standard'
+    capacity: deployment.capacity
+  }
+}]
 
 output endpoint string = account.properties.endpoint
 output id string = account.id
