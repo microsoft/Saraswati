@@ -12,8 +12,8 @@ param skuName string = 'Developer'
 param openAiEndpoint string = 'https://contoso.openai.azure.com'
 //'https://<your-openai-service>.openai.azure.com'
 
-@description('Endpoint of the Azure AI Search Service ')
-param searchEndpoint string = 'https://contoso.search.windows.net'
+@description('Endpoint of the Azure AI Speach Service ')
+param speechEndpoint string = 'https://contoso.tts.speech.microsoft.com'
 //'https://<your-cognitive-search-service>.search.windows.net'
 
 @description('Publisher email address.')
@@ -22,9 +22,12 @@ param apimPublisherEmail string = 'admin@contoso.com'
 @description('Publisher name.')
 param apimPublisherName string = 'Contoso'
 
-@description('Websocket location for speech service')
-param webSocketEndpoint string = 'wss://sddssdffds.cognitiveservices.azure.com'
+@description('Websocket location for speech to text')
+param sttSocketEndpoint string = 'wss://westus2.stt.speech.microsoft.com'
 //wss://cotoso.cognitiveservices.azure.com/
+
+@description('Websocket location for text to speech')
+param ttsSocketEndpoint string = 'wss://westus2.voice.speech.microsoft.com'
 
 resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
   name: apimServiceName
@@ -39,57 +42,77 @@ resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
   }
 }
 
-resource speech_to_text_websocket 'Microsoft.ApiManagement/service/apis@2021-08-01' = {
+resource speech_to_text_websocket 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
   parent: apim
-  name: 'speech_to_text_websocket'
+  name: 'stt_socket'
   properties: {
-    displayName: 'STT WebSocket'
-    path: 'sttsocket'
+    displayName: 'stt_socket'
+    subscriptionRequired: true
+    path: 'stt_socket'
     type: 'websocket'
-    serviceUrl: webSocketEndpoint
+    serviceUrl: sttSocketEndpoint
     protocols: [
       'wss'
     ]
+    subscriptionKeyParameterNames: {
+      header: 'Ocp-Apim-Subscription-Key'
+      query: 'Ocp-Apim-Subscription-Key'
+    }
   }
 }
 
-resource text_to_speech_websocket 'Microsoft.ApiManagement/service/apis@2021-08-01' = {
+resource text_to_speech_websocket 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
   parent: apim
-  name: 'text_to_speech_websocket'
+  name: 'tts_socket'
   properties: {
-    displayName: 'TTS WebSocket'
-    path: 'ttssocket'
+    displayName: 'tts_socket'
+    subscriptionRequired: true
+    path: 'tts_socket'
     type: 'websocket'
-    serviceUrl: webSocketEndpoint
+    serviceUrl: ttsSocketEndpoint
     protocols: [
       'wss'
     ]
+    subscriptionKeyParameterNames: {
+      header: 'Ocp-Apim-Subscription-Key'
+      query: 'Ocp-Apim-Subscription-Key'
+    }
   }
 }
 
-resource cognitiveSearchApi 'Microsoft.ApiManagement/service/apis@2021-08-01' = {
+resource cognitiveSearchApi 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
   parent: apim
-  name: 'cognitiveSearchApi'
+  name: 'speech'
   properties: {
-    displayName: 'Cognitive Search API'
-    serviceUrl: searchEndpoint
-    path: 'cognitive-search'
+    displayName: 'speech'
+    serviceUrl: speechEndpoint
+    subscriptionRequired: true
+    path: 'speech'
     protocols: [
       'https'
     ]
+    subscriptionKeyParameterNames: {
+      header: 'Ocp-Apim-Subscription-Key'
+      query: 'Ocp-Apim-Subscription-Key'
+    }
   }
 }
 
-resource openAiApi 'Microsoft.ApiManagement/service/apis@2021-08-01' = {
+resource openAiApi 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
   parent: apim
   name: 'azureOpenAiApi'
   properties: {
-    displayName: 'Azure OpenAI API'
+    displayName: 'aoai'
     serviceUrl: openAiEndpoint
-    path: 'aoai'
+    subscriptionRequired: true
+    path: 'aoai/openai'
     protocols: [
       'https'
     ]
+    subscriptionKeyParameterNames: {
+      header: 'api-key'
+      query: 'api-key'
+    }
   }
 }
 
