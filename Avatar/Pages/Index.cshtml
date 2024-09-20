@@ -16,8 +16,8 @@
   <label style="font-size: medium;" for="apimEndpoint">Endpoint (without https:// or wss://):</label>
   <input id="apimEndpoint" size="32" style="font-size: medium;" value="{your name}.azure-api.net" /> <br />
 
-  <label style="font-size: medium;" for="APIKey">API Key:</label>
-  <input id="APIKey" size="32" style="font-size: medium;" value=""/>  
+  <label style="font-size: medium;" for="APIKey">APIM Key:</label>
+  <input type="password" id="APIKey" size="32" style="font-size: medium;"  value=""/>  
   <div style="background-color: white; width: 300px;">
     <input type="checkbox" id="enablePrivateEndpoint" onchange = "window.updatePrivateEndpoint()">Enable Private Endpoint</input><br />
   </div>
@@ -41,7 +41,7 @@
     <label style="font-size: medium;" for="azureCogSearchEndpoint">Search Endpoint:</label>
     <input id="azureCogSearchEndpoint" type="text" size="64" style="font-size: medium;" value=""></input><br />
     <label style="font-size: medium;" for="azureCogSearchApiKey">Search Key:</label>
-    <input id="azureCogSearchApiKey" size="32" style="font-size: medium;" value=""/><br />
+    <input type="password" id="azureCogSearchApiKey" size="32" style="font-size: medium;" value=""/><br />
     <label style="font-size: medium;" for="azureCogSearchIndexName">Index Name:</label>
     <input id="azureCogSearchIndexName" type="text" size="32" style="font-size: medium;" value="" /><br />
     <br />

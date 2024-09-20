@@ -5,7 +5,7 @@
  *  that can be found in the LICENSE file in the root of the source
  *  tree.
  */
-.hidden {
+ .hidden {
     display: none;
 }
 
@@ -224,7 +224,7 @@ textarea {
 }
 
 video {
-    background: #222;
+    background: white;
     margin: 0 0 20px 0;
     --width: 100%;
     width: var(--width);
